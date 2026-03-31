@@ -19,71 +19,23 @@
       --tag-code: #3a2a1a;
       --tag-data: #2a1a3a;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    header {
-      background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
-      border-bottom: 1px solid var(--border);
-      padding: 2.5rem 2rem 2rem;
-    }
-
+    body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    header { background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%); border-bottom: 1px solid var(--border); padding: 2.5rem 2rem 2rem; }
     .header-inner { max-width: 900px; margin: 0 auto; }
-
-    .header-inner h1 {
-      font-size: 1.9rem; font-weight: 700;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text; letter-spacing: -0.5px;
-    }
-
+    .header-inner h1 { font-size: 1.9rem; font-weight: 700; background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -0.5px; }
     .header-inner p { color: var(--text-muted); margin-top: 0.4rem; font-size: 0.95rem; }
-
     .filter-bar { max-width: 900px; margin: 1.8rem auto 0; display: flex; gap: 0.5rem; flex-wrap: wrap; }
-
-    .filter-btn {
-      padding: 0.35rem 1rem; border-radius: 999px; border: 1px solid var(--border);
-      background: transparent; color: var(--text-muted); font-size: 0.85rem;
-      cursor: pointer; transition: all 0.18s;
-    }
-
-    .filter-btn:hover, .filter-btn.active {
-      background: var(--accent); border-color: var(--accent); color: #fff;
-    }
-
+    .filter-btn { padding: 0.35rem 1rem; border-radius: 999px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); font-size: 0.85rem; cursor: pointer; transition: all 0.18s; }
+    .filter-btn:hover, .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
     main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
-
     .search-wrap { position: relative; margin-bottom: 1.8rem; }
-
-    .search-wrap input {
-      width: 100%; padding: 0.7rem 1rem 0.7rem 2.6rem;
-      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
-      color: var(--text); font-size: 0.95rem; outline: none; transition: border-color 0.18s;
-    }
-
+    .search-wrap input { width: 100%; padding: 0.7rem 1rem 0.7rem 2.6rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 0.95rem; outline: none; transition: border-color 0.18s; }
     .search-wrap input:focus { border-color: var(--accent); }
-
-    .search-wrap .icon {
-      position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%);
-      color: var(--text-muted); font-size: 1rem;
-    }
-
+    .search-wrap .icon { position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1rem; }
     .cards { display: flex; flex-direction: column; gap: 1rem; }
-
-    .card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-      padding: 1.2rem 1.4rem; transition: border-color 0.18s, transform 0.15s; cursor: default;
-    }
-
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.2rem 1.4rem; transition: border-color 0.18s, transform 0.15s; cursor: default; }
     .card:hover { border-color: var(--accent); transform: translateY(-1px); }
-
     .card-top { display: flex; align-items: flex-start; gap: 0.8rem; }
     .card-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 0.1rem; }
     .card-body { flex: 1; }
@@ -96,26 +48,15 @@
     .tag-code  { background: var(--tag-code);  color: #f2994a; }
     .tag-data  { background: var(--tag-data);  color: #bb6bd9; }
     .card-date { font-size: 0.78rem; color: var(--text-muted); margin-left: auto; }
-    .card-link {
-      display: inline-flex; align-items: center; gap: 0.3rem;
-      font-size: 0.82rem; color: var(--accent); text-decoration: none;
-      margin-top: 0.7rem; transition: opacity 0.15s;
-    }
+    .card-link { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.82rem; color: var(--accent); text-decoration: none; margin-top: 0.7rem; transition: opacity 0.15s; }
     .card-link:hover { opacity: 0.75; }
     .empty { text-align: center; padding: 4rem 0; color: var(--text-muted); }
     .empty .big { font-size: 2.5rem; margin-bottom: 0.5rem; }
     .stats { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
     .stat { font-size: 0.85rem; color: var(--text-muted); }
     .stat span { color: var(--text); font-weight: 600; }
-    .section-label {
-      font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em;
-      color: var(--text-muted); margin: 1.5rem 0 0.75rem;
-      padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);
-    }
-    footer {
-      text-align: center; padding: 2rem; color: var(--text-muted);
-      font-size: 0.82rem; border-top: 1px solid var(--border);
-    }
+    .section-label { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 1.5rem 0 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.82rem; border-top: 1px solid var(--border); }
   </style>
 </head>
 <body>
@@ -145,10 +86,16 @@
 </footer>
 <script>
   const items = [
-    { type:"paper", icon:"📄", title:"예시 논문: Climate Model Validation", desc:"CMIP6 모델과 관측 데이터를 비교한 첫 번째 연구 결과 요약.", date:"2026-03-31", link:"papers/climate_validation.pdf", linkLabel:"PDF 열기", tags:["climate","CMIP6"] },
-    { type:"note", icon:"📝", title:"예시 노트: 아이디어 메모 — 강수량 편향 보정", desc:"quantile mapping 대신 deep learning 기반 보정 가능성 탐색 메모.", date:"2026-03-28", link:"notes/bias_correction_idea.md", linkLabel:"노트 열기", tags:["idea","bias-correction"] },
-    { type:"code", icon:"💻", title:"예시 코드: ERA5 다운로드 스크립트", desc:"CDS API를 사용해 ERA5 월별 데이터를 자동 다운로드하는 Python 스크립트.", date:"2026-03-20", link:"code/era5_download.py", linkLabel:"코드 보기", tags:["python","ERA5"] },
-    { type:"data", icon:"📊", title:"예시 데이터: 한반도 기온 트렌드 그래프", desc:"1960–2025년 한반도 연평균 기온 변화 시각화 (관측 vs 모델).", date:"2026-03-15", link:"data/korea_temp_trend.png", linkLabel:"이미지 열기", tags:["temperature","trend"] }
+    {
+      type: "paper",
+      icon: "📄",
+      title: "Statistical seasonal prediction of Arctic sea ice concentration based on spatiotemporal anomaly persistent method",
+      desc: "Gyu-Ri Lee, Sung-Ho Woo, Eun-Hyuk Baek, Joo-Hong Kim, Baek-Min Kim, Jee-Hoon Jeong · Environmental Research Letters, 19(11), 114060 (2024)",
+      date: "2024-11-01",
+      link: "https://scholar.google.com/citations?view_op=view_citation&hl=ko&user=oKNfES8AAAAJ&sortby=pubdate&citation_for_view=oKNfES8AAAAJ:DTjSuSUbmXsC",
+      linkLabel: "Google Scholar",
+      tags: ["Arctic sea ice", "seasonal prediction", "SEOF", "climate"]
+    }
   ];
   let currentFilter = "all";
   function renderCards(data) {
