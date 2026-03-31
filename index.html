@@ -329,30 +329,44 @@
 </footer>
 
 <script>
-  // ================================================================
-  // ✏️  여기에 항목을 추가하세요
-  // ================================================================
-  const items = [
-    {
-      type: "paper",
-      icon: "📄",
-      title: "Statistical seasonal prediction of Arctic sea ice concentration based on spatiotemporal anomaly persistent method",
-      desc: "Gyu-Ri Lee, Sung-Ho Woo, Eun-Hyuk Baek, Joo-Hong Kim, Baek-Min Kim, Jee-Hoon Jeong · Environmental Research Letters, 19(11), 114060 (2024)",
-      date: "2024-11-01",
-      link: "https://scholar.google.com/citations?view_op=view_citation&hl=ko&user=oKNfES8AAAAJ&sortby=pubdate&citation_for_view=oKNfES8AAAAJ:DTjSuSUbmXsC",
-      linkLabel: "Google Scholar",
-      tags: ["Arctic sea ice", "seasonal prediction", "SEOF", "climate"],
-      images: [
-        "papers/lee2024_arctic_seaice/figures/erlad7d1ff1_hr.jpg",
-        "papers/lee2024_arctic_seaice/figures/erlad7d1ff2_hr.jpg",
-        "papers/lee2024_arctic_seaice/figures/erlad7d1ff4_hr.jpg",
-        "papers/lee2024_arctic_seaice/figures/erlad7d1ff5_hr.jpg"
-      ]
-    }
-  ];
-  // ================================================================
-
+  let items = [];
   let currentFilter = "all";
+
+  function parseCSV(text) {
+    const lines = text.trim().split("\n");
+    const headers = lines[0].split(",");
+    return lines.slice(1).map(line => {
+      // CSV 필드 파싱 (따옴표 미사용 가정, 콤마 구분)
+      const cols = line.split(",");
+      const row = {};
+      headers.forEach((h, i) => row[h.trim()] = (cols[i] || "").trim());
+
+      const folder = row.folder;
+      const figures = row.figures ? row.figures.split("|").map(f =>
+        `papers/${folder}/figures/${f.trim()}`
+      ) : [];
+
+      return {
+        type: "paper",
+        icon: "📄",
+        title: row.title,
+        desc: `${row.authors} · ${row.journal} (${row.year})`,
+        date: row.year,
+        link: `https://doi.org/${row.doi}`,
+        linkLabel: "DOI",
+        tags: row.tags ? row.tags.split("|").map(t => t.trim()) : [],
+        images: figures
+      };
+    });
+  }
+
+  fetch("papers/index.csv")
+    .then(r => r.text())
+    .then(text => {
+      items = parseCSV(text);
+      renderCards(items);
+      updateStats(items);
+    });
 
   function renderCards(data) {
     const container = document.getElementById("cards");
@@ -468,8 +482,6 @@
   // init
   document.getElementById("last-updated").textContent =
     new Date().toISOString().split("T")[0];
-  renderCards(items);
-  updateStats(items);
 </script>
 
 </body>
