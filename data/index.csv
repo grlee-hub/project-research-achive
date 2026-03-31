@@ -1,2 +1,2 @@
 folder,title,date,desc,tags,images
-sea-ice-prediction,Arctic Sea Ice Seasonal Forecast,2026-03-21,SEOF 기반 북극 해빙 농도 계절 예측 (초기화: 2026-03-21),Arctic sea ice|forecast|SEOF,sice_forecast_20260321.png
+data/sea-ice-forecast,Arctic Sea Ice Seasonal Forecast,2026-03-21,SEOF 기반 북극 해빙 농도 계절 예측 (초기화: 2026-03-21),Arctic sea ice|forecast|SEOF,sice_forecast_20260321.png
