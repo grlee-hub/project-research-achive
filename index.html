@@ -424,10 +424,7 @@
       const row = {};
       headers.forEach((h, i) => row[h.trim()] = (cols[i] || "").trim());
 
-      const folder = row.folder;
-      const images = row.images ? row.images.split("|").map(f =>
-        `${folder}/${f.trim()}`
-      ) : [];
+      const images = row.images ? row.images.split("|").map(f => f.trim()) : [];
 
       return {
         type: "data",
