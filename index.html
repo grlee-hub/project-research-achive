@@ -199,6 +199,16 @@
 
     .lightbox-close:hover { opacity: 1; }
 
+    /* ── Data full-width image ── */
+    .data-img {
+      width: 100%;
+      border-radius: 8px;
+      margin-top: 0.9rem;
+      display: block;
+      cursor: zoom-in;
+      border: 1px solid var(--border);
+    }
+
     .paper-img-more {
       position: absolute;
       inset: 0;
@@ -491,12 +501,24 @@
           `</div>`;
         }
 
+        // Build full-width image for data type
+        let dataImgHtml = "";
+        if (item.type === "data" && item.images && item.images.length > 0) {
+          dataImgHtml = item.images.map((src, idx) =>
+            `<img class="data-img" src="${src}" alt="figure ${idx + 1}" loading="lazy" onclick="openLightbox(event, '${src}')">`
+          ).join("");
+        }
+
+        const titleHtml = item.link
+          ? `<a class="card-title" href="${item.link}" target="_blank">${item.title}</a>`
+          : `<span class="card-title">${item.title}</span>`;
+
         card.innerHTML = `
           ${imgStripHtml}
           <div class="card-top">
             <div class="card-icon">${item.icon}</div>
             <div class="card-body">
-              <a class="card-title" href="${item.link}" target="_blank">${item.title}</a>
+              ${titleHtml}
               <div class="card-desc">${item.desc}</div>
               <div class="card-meta">
                 ${item.tags.map(t => `<span class="tag tag-${item.type}">#${t}</span>`).join("")}
@@ -505,6 +527,7 @@
               ${item.link ? `<a class="card-link" href="${item.link}" target="_blank">↗ ${item.linkLabel}</a>` : ""}
             </div>
           </div>
+          ${dataImgHtml}
         `;
 
         container.appendChild(card);
