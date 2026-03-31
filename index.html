@@ -29,100 +29,278 @@
       line-height: 1.6;
     }
 
+    /* ── Header ── */
     header {
       background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
       border-bottom: 1px solid var(--border);
       padding: 2.5rem 2rem 2rem;
     }
 
-    .header-inner { max-width: 900px; margin: 0 auto; }
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
 
     .header-inner h1 {
-      font-size: 1.9rem; font-weight: 700;
+      font-size: 1.9rem;
+      font-weight: 700;
       background: linear-gradient(90deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text; letter-spacing: -0.5px;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
     }
 
-    .header-inner p { color: var(--text-muted); margin-top: 0.4rem; font-size: 0.95rem; }
+    .header-inner p {
+      color: var(--text-muted);
+      margin-top: 0.4rem;
+      font-size: 0.95rem;
+    }
 
-    .filter-bar { max-width: 900px; margin: 1.8rem auto 0; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    /* ── Filter bar ── */
+    .filter-bar {
+      max-width: 900px;
+      margin: 1.8rem auto 0;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
 
     .filter-btn {
-      padding: 0.35rem 1rem; border-radius: 999px; border: 1px solid var(--border);
-      background: transparent; color: var(--text-muted); font-size: 0.85rem;
-      cursor: pointer; transition: all 0.18s;
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.18s;
     }
 
-    .filter-btn:hover, .filter-btn.active {
-      background: var(--accent); border-color: var(--accent); color: #fff;
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
     }
 
-    main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+    /* ── Main ── */
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1.5rem 4rem;
+    }
 
-    .search-wrap { position: relative; margin-bottom: 1.8rem; }
+    /* ── Search ── */
+    .search-wrap {
+      position: relative;
+      margin-bottom: 1.8rem;
+    }
 
     .search-wrap input {
-      width: 100%; padding: 0.7rem 1rem 0.7rem 2.6rem;
-      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
-      color: var(--text); font-size: 0.95rem; outline: none; transition: border-color 0.18s;
+      width: 100%;
+      padding: 0.7rem 1rem 0.7rem 2.6rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.18s;
     }
 
-    .search-wrap input:focus { border-color: var(--accent); }
+    .search-wrap input:focus {
+      border-color: var(--accent);
+    }
 
     .search-wrap .icon {
-      position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%);
-      color: var(--text-muted); font-size: 1rem;
+      position: absolute;
+      left: 0.85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 1rem;
     }
 
-    .cards { display: flex; flex-direction: column; gap: 1rem; }
+    /* ── Cards ── */
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
 
     .card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-      padding: 1.2rem 1.4rem; transition: border-color 0.18s, transform 0.15s; cursor: default;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem;
+      transition: border-color 0.18s, transform 0.15s;
+      cursor: default;
     }
 
-    .card:hover { border-color: var(--accent); transform: translateY(-1px); }
+    /* ── Paper image strip ── */
+    .paper-imgs {
+      display: flex;
+      gap: 0.45rem;
+      margin-bottom: 0.9rem;
+    }
 
-    .card-top { display: flex; align-items: flex-start; gap: 0.8rem; }
-    .card-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 0.1rem; }
+    .paper-img-wrap {
+      position: relative;
+      width: 82px;
+      height: 82px;
+      flex-shrink: 0;
+      border-radius: 7px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+    }
+
+    .paper-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .paper-img-more {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 17, 23, 0.62);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.05em;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+    }
+
+    .card-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
     .card-body { flex: 1; }
-    .card-title { font-size: 1rem; font-weight: 600; color: var(--text); }
-    .card-desc { font-size: 0.87rem; color: var(--text-muted); margin-top: 0.25rem; }
-    .card-meta { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.75rem; flex-wrap: wrap; }
-    .tag { font-size: 0.75rem; padding: 0.18rem 0.65rem; border-radius: 999px; font-weight: 500; }
-    .tag-paper { background: var(--tag-paper); color: #6ab0f5; }
-    .tag-note  { background: var(--tag-note);  color: #6fcf97; }
-    .tag-code  { background: var(--tag-code);  color: #f2994a; }
-    .tag-data  { background: var(--tag-data);  color: #bb6bd9; }
-    .card-date { font-size: 0.78rem; color: var(--text-muted); margin-left: auto; }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .card-desc {
+      font-size: 0.87rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      padding: 0.18rem 0.65rem;
+      border-radius: 999px;
+      font-weight: 500;
+    }
+
+    .tag-paper  { background: var(--tag-paper);  color: #6ab0f5; }
+    .tag-note   { background: var(--tag-note);   color: #6fcf97; }
+    .tag-code   { background: var(--tag-code);   color: #f2994a; }
+    .tag-data   { background: var(--tag-data);   color: #bb6bd9; }
+
+    .card-date {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-left: auto;
+    }
+
     .card-link {
-      display: inline-flex; align-items: center; gap: 0.3rem;
-      font-size: 0.82rem; color: var(--accent); text-decoration: none;
-      margin-top: 0.7rem; transition: opacity 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.82rem;
+      color: var(--accent);
+      text-decoration: none;
+      margin-top: 0.7rem;
+      transition: opacity 0.15s;
     }
+
     .card-link:hover { opacity: 0.75; }
-    .empty { text-align: center; padding: 4rem 0; color: var(--text-muted); }
-    .empty .big { font-size: 2.5rem; margin-bottom: 0.5rem; }
-    .stats { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
-    .stat { font-size: 0.85rem; color: var(--text-muted); }
-    .stat span { color: var(--text); font-weight: 600; }
-    .section-label {
-      font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em;
-      color: var(--text-muted); margin: 1.5rem 0 0.75rem;
-      padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);
+
+    /* ── Empty state ── */
+    .empty {
+      text-align: center;
+      padding: 4rem 0;
+      color: var(--text-muted);
     }
+
+    .empty .big { font-size: 2.5rem; margin-bottom: 0.5rem; }
+
+    /* ── Stats bar ── */
+    .stats {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .stat span {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* ── Section divider ── */
+    .section-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin: 1.5rem 0 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Footer ── */
     footer {
-      text-align: center; padding: 2rem; color: var(--text-muted);
-      font-size: 0.82rem; border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      border-top: 1px solid var(--border);
     }
   </style>
 </head>
 <body>
+
 <header>
   <div class="header-inner">
     <h1>📂 Research Archive</h1>
     <p>아이디어, 방법론, 논문, 코드, 결과물을 한 곳에</p>
+
     <div class="filter-bar">
       <button class="filter-btn active" onclick="filterCards('all')">All</button>
       <button class="filter-btn" onclick="filterCards('paper')">📄 Papers</button>
@@ -132,58 +310,162 @@
     </div>
   </div>
 </header>
+
 <main>
+
   <div class="search-wrap">
     <span class="icon">🔍</span>
     <input type="text" id="search" placeholder="Search by title, tag, or description..." oninput="searchCards()"/>
   </div>
+
   <div class="stats" id="stats"></div>
+
   <div class="cards" id="cards"></div>
+
 </main>
+
 <footer>
-  Last updated: <span id="last-updated"></span> &nbsp;&middot;&nbsp; GYURI's Research Archive
+  Last updated: <span id="last-updated"></span> &nbsp;·&nbsp; GYURI's Research Archive
 </footer>
+
 <script>
+  // ================================================================
+  // ✏️  여기에 항목을 추가하세요
+  // ================================================================
   const items = [
-    { type:"paper", icon:"📄", title:"예시 논문: Climate Model Validation", desc:"CMIP6 모델과 관측 데이터를 비교한 첫 번째 연구 결과 요약.", date:"2026-03-31", link:"papers/climate_validation.pdf", linkLabel:"PDF 열기", tags:["climate","CMIP6"] },
-    { type:"note", icon:"📝", title:"예시 노트: 아이디어 메모 — 강수량 편향 보정", desc:"quantile mapping 대신 deep learning 기반 보정 가능성 탐색 메모.", date:"2026-03-28", link:"notes/bias_correction_idea.md", linkLabel:"노트 열기", tags:["idea","bias-correction"] },
-    { type:"code", icon:"💻", title:"예시 코드: ERA5 다운로드 스크립트", desc:"CDS API를 사용해 ERA5 월별 데이터를 자동 다운로드하는 Python 스크립트.", date:"2026-03-20", link:"code/era5_download.py", linkLabel:"코드 보기", tags:["python","ERA5"] },
-    { type:"data", icon:"📊", title:"예시 데이터: 한반도 기온 트렌드 그래프", desc:"1960–2025년 한반도 연평균 기온 변화 시각화 (관측 vs 모델).", date:"2026-03-15", link:"data/korea_temp_trend.png", linkLabel:"이미지 열기", tags:["temperature","trend"] }
+    {
+      type: "paper",
+      icon: "📄",
+      title: "Statistical seasonal prediction of Arctic sea ice concentration based on spatiotemporal anomaly persistent method",
+      desc: "Gyu-Ri Lee, Sung-Ho Woo, Eun-Hyuk Baek, Joo-Hong Kim, Baek-Min Kim, Jee-Hoon Jeong · Environmental Research Letters, 19(11), 114060 (2024)",
+      date: "2024-11-01",
+      link: "https://iopscience.iop.org/article/10.1088/1748-9326/ad7d1f",
+      linkLabel: "Google Scholar",
+      tags: ["Arctic sea ice", "Seasonal prediction", "SEOF", "Climate"],
+      images: ["https://content.cld.iop.org/journals/1748-9326/19/11/114060/revision4/erlad7d1ff1_lr.jpg", "https://content.cld.iop.org/journals/1748-9326/19/11/114060/revision4/erlad7d1ff2_lr.jpg", "https://content.cld.iop.org/journals/1748-9326/19/11/114060/revision4/erlad7d1ff3_lr.jpg"]   // 논문 그림 경로/URL을 여기에 추가 (예: "papers/fig1.png")
+    }
   ];
+  // ================================================================
+
   let currentFilter = "all";
+
   function renderCards(data) {
-    const c = document.getElementById("cards"); c.innerHTML = "";
-    if (!data.length) { c.innerHTML = '<div class="empty"><div class="big">🔍</div>검색 결과가 없습니다.</div>'; return; }
-    const g = {paper:[],note:[],code:[],data:[]};
-    data.forEach(i => g[i.type] && g[i.type].push(i));
-    const lb = {paper:"📄 Papers",note:"📝 Notes",code:"💻 Code",data:"📊 Data"};
-    Object.keys(g).forEach(t => {
-      if (!g[t].length) return;
-      if (currentFilter==="all") { const l=document.createElement("div"); l.className="section-label"; l.textContent=lb[t]; c.appendChild(l); }
-      g[t].forEach(item => {
-        const d=document.createElement("div"); d.className="card"; d.dataset.type=item.type;
-        d.innerHTML='<div class="card-top"><div class="card-icon">'+item.icon+'</div><div class="card-body"><div class="card-title">'+item.title+'</div><div class="card-desc">'+item.desc+'</div><div class="card-meta">'+item.tags.map(t=>'<span class="tag tag-'+item.type+'">#'+t+'</span>').join('')+'<span class="card-date">'+item.date+'</span></div>'+(item.link?'<a class="card-link" href="'+item.link+'" target="_blank">↗ '+item.linkLabel+'</a>':'')+'</div></div>';
-        c.appendChild(d);
+    const container = document.getElementById("cards");
+    container.innerHTML = "";
+
+    if (data.length === 0) {
+      container.innerHTML = `<div class="empty"><div class="big">🔍</div>검색 결과가 없습니다.</div>`;
+      return;
+    }
+
+    const groups = { paper: [], note: [], code: [], data: [] };
+    data.forEach(item => {
+      if (groups[item.type]) groups[item.type].push(item);
+    });
+
+    const labels = { paper: "📄 Papers", note: "📝 Notes", code: "💻 Code", data: "📊 Data" };
+
+    Object.keys(groups).forEach(type => {
+      const group = groups[type];
+      if (group.length === 0) return;
+
+      if (currentFilter === "all") {
+        const label = document.createElement("div");
+        label.className = "section-label";
+        label.textContent = labels[type];
+        container.appendChild(label);
+      }
+
+      group.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.dataset.type = item.type;
+
+        // Build image strip for paper type
+        const MAX_IMGS = 5;
+        let imgStripHtml = "";
+        if (item.type === "paper" && item.images && item.images.length > 0) {
+          const imgs = item.images;
+          const visible = imgs.slice(0, MAX_IMGS);
+          const extra = imgs.length - MAX_IMGS;
+          imgStripHtml = `<div class="paper-imgs">` +
+            visible.map((src, idx) => {
+              const isLast = idx === MAX_IMGS - 1 && extra > 0;
+              return `<div class="paper-img-wrap">
+                <img src="${src}" alt="figure ${idx + 1}" loading="lazy">
+                ${isLast ? `<div class="paper-img-more">…</div>` : ""}
+              </div>`;
+            }).join("") +
+          `</div>`;
+        }
+
+        card.innerHTML = `
+          ${imgStripHtml}
+          <div class="card-top">
+            <div class="card-icon">${item.icon}</div>
+            <div class="card-body">
+              <div class="card-title">${item.title}</div>
+              <div class="card-desc">${item.desc}</div>
+              <div class="card-meta">
+                ${item.tags.map(t => `<span class="tag tag-${item.type}">#${t}</span>`).join("")}
+                <span class="card-date">${item.date}</span>
+              </div>
+              ${item.link ? `<a class="card-link" href="${item.link}" target="_blank">↗ ${item.linkLabel}</a>` : ""}
+            </div>
+          </div>
+        `;
+
+        container.appendChild(card);
       });
     });
   }
+
   function updateStats(data) {
-    const counts={paper:0,note:0,code:0,data:0}; data.forEach(i=>counts[i.type]++);
-    document.getElementById("stats").innerHTML='<div class="stat">총 <span>'+data.length+'</span>개</div><div class="stat">📄 <span>'+counts.paper+'</span></div><div class="stat">📝 <span>'+counts.note+'</span></div><div class="stat">💻 <span>'+counts.code+'</span></div><div class="stat">📊 <span>'+counts.data+'</span></div>';
+    const counts = { paper: 0, note: 0, code: 0, data: 0 };
+    data.forEach(i => counts[i.type]++);
+    document.getElementById("stats").innerHTML = `
+      <div class="stat">총 <span>${data.length}</span>개</div>
+      <div class="stat">📄 <span>${counts.paper}</span></div>
+      <div class="stat">📝 <span>${counts.note}</span></div>
+      <div class="stat">💻 <span>${counts.code}</span></div>
+      <div class="stat">📊 <span>${counts.data}</span></div>
+    `;
   }
+
   function getFiltered() {
-    const q=document.getElementById("search").value.toLowerCase();
-    return items.filter(i => (currentFilter==="all"||i.type===currentFilter) && (!q||i.title.toLowerCase().includes(q)||i.desc.toLowerCase().includes(q)||i.tags.some(t=>t.toLowerCase().includes(q))));
+    const q = document.getElementById("search").value.toLowerCase();
+    return items.filter(item => {
+      const matchType = currentFilter === "all" || item.type === currentFilter;
+      const matchSearch =
+        !q ||
+        item.title.toLowerCase().includes(q) ||
+        item.desc.toLowerCase().includes(q) ||
+        item.tags.some(t => t.toLowerCase().includes(q));
+      return matchType && matchSearch;
+    });
   }
+
   function filterCards(type) {
-    currentFilter=type;
-    document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
+    currentFilter = type;
+    document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
     event.target.classList.add("active");
-    const f=getFiltered(); renderCards(f); updateStats(f);
+    const filtered = getFiltered();
+    renderCards(filtered);
+    updateStats(filtered);
   }
-  function searchCards() { const f=getFiltered(); renderCards(f); updateStats(f); }
-  document.getElementById("last-updated").textContent=new Date().toISOString().split("T")[0];
-  renderCards(items); updateStats(items);
+
+  function searchCards() {
+    const filtered = getFiltered();
+    renderCards(filtered);
+    updateStats(filtered);
+  }
+
+  // init
+  document.getElementById("last-updated").textContent =
+    new Date().toISOString().split("T")[0];
+  renderCards(items);
+  updateStats(items);
 </script>
+
 </body>
 </html>
