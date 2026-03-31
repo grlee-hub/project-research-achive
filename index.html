@@ -406,13 +406,40 @@
     });
   }
 
-  fetch("papers/index.csv")
-    .then(r => r.text())
-    .then(text => {
-      items = parseCSV(text);
-      renderCards(items);
-      updateStats(items);
+  function parseDataCSV(text) {
+    const lines = text.trim().split("\n");
+    const headers = lines[0].split(",");
+    return lines.slice(1).map(line => {
+      const cols = line.split(",");
+      const row = {};
+      headers.forEach((h, i) => row[h.trim()] = (cols[i] || "").trim());
+
+      const folder = row.folder;
+      const images = row.images ? row.images.split("|").map(f =>
+        `${folder}/${f.trim()}`
+      ) : [];
+
+      return {
+        type: "data",
+        icon: "📊",
+        title: row.title,
+        desc: row.desc,
+        date: row.date,
+        link: null,
+        tags: row.tags ? row.tags.split("|").map(t => t.trim()) : [],
+        images: images
+      };
     });
+  }
+
+  Promise.all([
+    fetch("papers/index.csv").then(r => r.text()),
+    fetch("data/index.csv").then(r => r.text())
+  ]).then(([papersText, dataText]) => {
+    items = [...parseCSV(papersText), ...parseDataCSV(dataText)];
+    renderCards(items);
+    updateStats(items);
+  });
 
   function renderCards(data) {
     const container = document.getElementById("cards");
