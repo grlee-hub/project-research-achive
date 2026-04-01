@@ -359,6 +359,29 @@
 
     .card-link:hover { opacity: 0.75; }
 
+    /* ── Section see-all button ── */
+    .section-see-all {
+      text-align: center;
+      margin-top: 0.5rem;
+    }
+
+    .section-see-all button {
+      padding: 0.4rem 1.4rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--accent);
+      font-size: 0.83rem;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+
+    .section-see-all button:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
     /* ── Empty state ── */
     .empty {
       text-align: center;
@@ -570,11 +593,11 @@
     <p>아이디어, 방법론, 논문, 코드, 결과물을 한 곳에</p>
 
     <div class="filter-bar">
-      <button class="filter-btn active" onclick="filterCards('all')">All</button>
-      <button class="filter-btn" onclick="filterCards('paper')">📄 Papers</button>
-      <button class="filter-btn" onclick="filterCards('note')">📝 Notes</button>
-      <button class="filter-btn" onclick="filterCards('code')">💻 Code</button>
-      <button class="filter-btn" onclick="filterCards('data')">📊 Data</button>
+      <button class="filter-btn active" data-filter="all" onclick="filterCards('all')">All</button>
+      <button class="filter-btn" data-filter="paper" onclick="filterCards('paper')">📄 Papers</button>
+      <button class="filter-btn" data-filter="note" onclick="filterCards('note')">📝 Notes</button>
+      <button class="filter-btn" data-filter="code" onclick="filterCards('code')">💻 Code</button>
+      <button class="filter-btn" data-filter="data" onclick="filterCards('data')">📊 Data</button>
     </div>
   </div>
 </header>
@@ -711,6 +734,11 @@
         container.appendChild(label);
       }
 
+      // In "all" view, limit to 2 rows per section
+      const rowLimit = { paper: 2, note: 2, code: 2, data: 4 };
+      const visibleGroup = currentFilter === 'all' ? group.slice(0, rowLimit[type]) : group;
+      const hasMore = currentFilter === 'all' && group.length > rowLimit[type];
+
       const cardTarget = (() => {
         if (type === 'data') {
           const grid = document.createElement('div');
@@ -721,7 +749,7 @@
         return container;
       })();
 
-      group.forEach(item => {
+      visibleGroup.forEach(item => {
         const card = document.createElement("div");
         card.className = "card";
         card.dataset.type = item.type;
@@ -792,6 +820,13 @@
 
         cardTarget.appendChild(card);
       });
+
+      if (hasMore) {
+        const seeAll = document.createElement('div');
+        seeAll.className = 'section-see-all';
+        seeAll.innerHTML = `<button onclick="goToFilter('${type}')">See all ${group.length} →</button>`;
+        container.appendChild(seeAll);
+      }
     });
   }
 
@@ -855,11 +890,17 @@
 
   function filterCards(type) {
     currentFilter = type;
-    document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
-    event.target.classList.add("active");
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.filter === type);
+    });
     const filtered = getFiltered();
     renderCards(filtered);
     updateStats(filtered);
+  }
+
+  function goToFilter(type) {
+    filterCards(type);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function searchCards() {
