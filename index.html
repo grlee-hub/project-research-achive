@@ -774,12 +774,9 @@
 
         // For data type: show overview only, add more button
         let cardDesc = item.desc;
-        let moreBtnHtml = "";
         if (item.type === "data") {
           const sections = parseDescSections(item.desc);
           cardDesc = sections.overview || item.desc;
-          const hasMore = sections.method || sections.results || (item.images && item.images.length > 0);
-          if (hasMore) moreBtnHtml = `<button class="card-more-btn">See more ↓</button>`;
         }
 
         const titleHtml = item.link
@@ -805,17 +802,14 @@
                 <span class="card-date">${item.date}</span>
               </div>
               ${item.link ? `<a class="card-link" href="${item.link}" target="_blank">↗ ${item.linkLabel}</a>` : ""}
-              ${moreBtnHtml}
             </div>
           </div>
           ${dataImgHtml}
         `;
 
-        if (item.type === "data" && moreBtnHtml) {
-          card.querySelector(".card-more-btn").addEventListener("click", (e) => {
-            e.stopPropagation();
-            openDetailModal(item);
-          });
+        if (item.type === "data") {
+          card.style.cursor = "pointer";
+          card.addEventListener("click", () => openDetailModal(item));
         }
 
         cardTarget.appendChild(card);
