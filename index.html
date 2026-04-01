@@ -839,13 +839,15 @@
       const arrow = isActive ? (currentSort.dir === 'desc' ? ' ↓' : ' ↑') : '';
       return `<button class="sort-btn${isActive ? ' active' : ''}" onclick="setSort('${key}')">${sortLabels[key]}${arrow}</button>`;
     }).join('');
+    const typeCounts = currentFilter === 'all'
+      ? `<div class="stat">📄 <span>${counts.paper}</span></div>
+         <div class="stat">📝 <span>${counts.note}</span></div>
+         <div class="stat">💻 <span>${counts.code}</span></div>
+         <div class="stat">📊 <span>${counts.data}</span></div>` : '';
     document.getElementById("stats").innerHTML = `
       <div class="stats-left">
         <div class="stat">Total <span>${data.length}</span></div>
-        <div class="stat">📄 <span>${counts.paper}</span></div>
-        <div class="stat">📝 <span>${counts.note}</span></div>
-        <div class="stat">💻 <span>${counts.code}</span></div>
-        <div class="stat">📊 <span>${counts.data}</span></div>
+        ${typeCounts}
       </div>
       <div class="sort-btns">${sortBtns}</div>
     `;
