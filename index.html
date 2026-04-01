@@ -267,7 +267,6 @@
       border-radius: 8px;
       margin-top: 0.9rem;
       display: block;
-      cursor: zoom-in;
       border: 1px solid var(--border);
     }
 
@@ -787,7 +786,7 @@
         let dataImgHtml = "";
         if (item.type === "data" && item.images && item.images.length > 0) {
           dataImgHtml = item.images.map((src, idx) =>
-            `<img class="data-img" src="${src}" alt="figure ${idx + 1}" loading="lazy" onclick="openLightbox(event, '${src}')">`
+            `<img class="data-img" src="${src}" alt="figure ${idx + 1}" loading="lazy">`
           ).join("");
         }
 
