@@ -371,9 +371,18 @@
     /* ── Stats bar ── */
     .stats {
       display: flex;
-      gap: 1.5rem;
+      align-items: center;
+      justify-content: space-between;
       margin-bottom: 1.5rem;
       flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .stats-left {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     .stat {
@@ -384,6 +393,29 @@
     .stat span {
       color: var(--text);
       font-weight: 600;
+    }
+
+    .sort-btns {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .sort-btn {
+      padding: 0.28rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+
+    .sort-btn:hover,
+    .sort-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
     }
 
     /* ── Section divider ── */
@@ -568,6 +600,8 @@
 <script>
   let items = [];
   let currentFilter = "all";
+  let currentSort = { key: 'date', dir: 'desc' };
+  let viewCounts = JSON.parse(localStorage.getItem('viewCounts') || '{}');
 
   function parseCSV(text) {
     const lines = text.trim().split("\n");
@@ -584,6 +618,7 @@
       ) : [];
 
       return {
+        id: folder,
         type: "paper",
         icon: "📄",
         title: row.title,
@@ -627,6 +662,7 @@
       const images = row.images ? row.images.split("|").map(f => f.trim()) : [];
 
       return {
+        id: row.folder,
         type: "data",
         icon: "📊",
         title: row.title,
@@ -762,18 +798,27 @@
   function updateStats(data) {
     const counts = { paper: 0, note: 0, code: 0, data: 0 };
     data.forEach(i => counts[i.type]++);
+    const sortLabels = { date: 'Date', views: 'Views', name: 'Name' };
+    const sortBtns = Object.keys(sortLabels).map(key => {
+      const isActive = currentSort.key === key;
+      const arrow = isActive ? (currentSort.dir === 'desc' ? ' ↓' : ' ↑') : '';
+      return `<button class="sort-btn${isActive ? ' active' : ''}" onclick="setSort('${key}')">${sortLabels[key]}${arrow}</button>`;
+    }).join('');
     document.getElementById("stats").innerHTML = `
-      <div class="stat">총 <span>${data.length}</span>개</div>
-      <div class="stat">📄 <span>${counts.paper}</span></div>
-      <div class="stat">📝 <span>${counts.note}</span></div>
-      <div class="stat">💻 <span>${counts.code}</span></div>
-      <div class="stat">📊 <span>${counts.data}</span></div>
+      <div class="stats-left">
+        <div class="stat">Total <span>${data.length}</span></div>
+        <div class="stat">📄 <span>${counts.paper}</span></div>
+        <div class="stat">📝 <span>${counts.note}</span></div>
+        <div class="stat">💻 <span>${counts.code}</span></div>
+        <div class="stat">📊 <span>${counts.data}</span></div>
+      </div>
+      <div class="sort-btns">${sortBtns}</div>
     `;
   }
 
   function getFiltered() {
     const q = document.getElementById("search").value.toLowerCase();
-    return items.filter(item => {
+    const filtered = items.filter(item => {
       const matchType = currentFilter === "all" || item.type === currentFilter;
       const matchSearch =
         !q ||
@@ -782,6 +827,30 @@
         item.tags.some(t => t.toLowerCase().includes(q));
       return matchType && matchSearch;
     });
+    return sortData(filtered);
+  }
+
+  function sortData(data) {
+    const { key, dir } = currentSort;
+    const mul = dir === 'desc' ? -1 : 1;
+    return [...data].sort((a, b) => {
+      if (key === 'date') return mul * (a.date < b.date ? -1 : a.date > b.date ? 1 : 0);
+      if (key === 'views') return mul * ((viewCounts[a.id] || 0) - (viewCounts[b.id] || 0));
+      if (key === 'name') return mul * a.title.localeCompare(b.title);
+      return 0;
+    });
+  }
+
+  function setSort(key) {
+    if (currentSort.key === key) {
+      currentSort.dir = currentSort.dir === 'desc' ? 'asc' : 'desc';
+    } else {
+      currentSort.key = key;
+      currentSort.dir = 'desc';
+    }
+    const filtered = getFiltered();
+    renderCards(filtered);
+    updateStats(filtered);
   }
 
   function filterCards(type) {
@@ -811,6 +880,10 @@
   }
 
   function openDetailModal(item) {
+    if (item.id) {
+      viewCounts[item.id] = (viewCounts[item.id] || 0) + 1;
+      localStorage.setItem('viewCounts', JSON.stringify(viewCounts));
+    }
     const s = parseDescSections(item.desc);
     document.getElementById('dm-title').textContent = item.title;
     let html = '';
