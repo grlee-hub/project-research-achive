@@ -624,12 +624,20 @@
           const sections = parseDescSections(item.desc);
           cardDesc = sections.overview || item.desc;
           const hasMore = sections.method || sections.results || (item.images && item.images.length > 0);
-          if (hasMore) moreBtnHtml = `<button class="card-more-btn">더보기 ↓</button>`;
+          if (hasMore) moreBtnHtml = `<button class="card-more-btn">See more ↓</button>`;
         }
 
         const titleHtml = item.link
           ? `<a class="card-title" href="${item.link}" target="_blank">${item.title}</a>`
           : `<span class="card-title">${item.title}</span>`;
+
+        // Build full-width image for data type
+        let dataImgHtml = "";
+        if (item.type === "data" && item.images && item.images.length > 0) {
+          dataImgHtml = item.images.map((src, idx) =>
+            `<img class="data-img" src="${src}" alt="figure ${idx + 1}" loading="lazy" onclick="openLightbox(event, '${src}')">`
+          ).join("");
+        }
 
         card.innerHTML = `
           ${imgStripHtml}
@@ -646,6 +654,7 @@
               ${moreBtnHtml}
             </div>
           </div>
+          ${dataImgHtml}
         `;
 
         if (item.type === "data" && moreBtnHtml) {
