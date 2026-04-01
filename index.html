@@ -397,17 +397,14 @@
       border-bottom: 1px solid var(--border);
     }
 
-    /* ── Data 3-column grid ── */
+    /* ── Data 2-column grid ── */
     .cards-3col {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
     }
-    @media (max-width: 700px) {
+    @media (max-width: 600px) {
       .cards-3col { grid-template-columns: 1fr; }
-    }
-    @media (min-width: 701px) and (max-width: 960px) {
-      .cards-3col { grid-template-columns: repeat(2, 1fr); }
     }
 
     /* ── More button ── */
@@ -741,7 +738,6 @@
               ${titleHtml}
               <div class="card-desc">${cardDesc}</div>
               <div class="card-meta">
-                ${item.tags.map(t => `<span class="tag tag-${item.type}">#${t}</span>`).join("")}
                 <span class="card-date">${item.date}</span>
               </div>
               ${item.link ? `<a class="card-link" href="${item.link}" target="_blank">↗ ${item.linkLabel}</a>` : ""}
@@ -825,6 +821,14 @@
       html += `<div class="dm-imgs">` + item.images.map((src, i) =>
         `<img class="dm-img" src="${src}" alt="figure ${i+1}" loading="lazy" onclick="openLightbox(event,'${src}')">`
       ).join('') + `</div>`;
+    }
+    if (item.tags && item.tags.length > 0) {
+      html += `<div class="dm-section" style="margin-top:1rem">
+        <div class="dm-label">Tags</div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.3rem">
+          ${item.tags.map(t => `<span class="tag tag-${item.type}">#${t}</span>`).join('')}
+        </div>
+      </div>`;
     }
     document.getElementById('dm-body').innerHTML = html;
     document.getElementById('detail-modal').classList.add('open');
