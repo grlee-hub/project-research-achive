@@ -335,6 +335,17 @@
       border-bottom: 1px solid var(--border);
     }
 
+    /* ── Data 2-column grid ── */
+    .cards-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      .cards-2col { grid-template-columns: 1fr; }
+    }
+
     /* ── Footer ── */
     footer {
       text-align: center;
@@ -416,13 +427,32 @@
     });
   }
 
+  function parseCSVLine(line) {
+    const result = [];
+    let cur = '';
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') {
+        inQuotes = !inQuotes;
+      } else if (ch === ',' && !inQuotes) {
+        result.push(cur);
+        cur = '';
+      } else {
+        cur += ch;
+      }
+    }
+    result.push(cur);
+    return result;
+  }
+
   function parseDataCSV(text) {
     const lines = text.trim().split("\n");
-    const headers = lines[0].split(",");
+    const headers = lines[0].split(",").map(h => h.trim());
     return lines.slice(1).map(line => {
-      const cols = line.split(",");
+      const cols = parseCSVLine(line);
       const row = {};
-      headers.forEach((h, i) => row[h.trim()] = (cols[i] || "").trim());
+      headers.forEach((h, i) => row[h] = (cols[i] || "").trim());
 
       const images = row.images ? row.images.split("|").map(f => f.trim()) : [];
 
@@ -474,6 +504,16 @@
         label.textContent = labels[type];
         container.appendChild(label);
       }
+
+      const cardTarget = (() => {
+        if (type === 'data') {
+          const grid = document.createElement('div');
+          grid.className = 'cards-2col';
+          container.appendChild(grid);
+          return grid;
+        }
+        return container;
+      })();
 
       group.forEach(item => {
         const card = document.createElement("div");
@@ -527,7 +567,7 @@
           ${dataImgHtml}
         `;
 
-        container.appendChild(card);
+        cardTarget.appendChild(card);
       });
     });
   }
