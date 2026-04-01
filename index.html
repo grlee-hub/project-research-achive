@@ -335,15 +335,94 @@
       border-bottom: 1px solid var(--border);
     }
 
-    /* ── Data 2-column grid ── */
-    .cards-2col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
+    /* ── More button ── */
+    .card-more-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.82rem;
+      color: var(--accent);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      margin-top: 0.5rem;
+      transition: opacity 0.15s;
     }
+    .card-more-btn:hover { opacity: 0.75; }
 
-    @media (max-width: 600px) {
-      .cards-2col { grid-template-columns: 1fr; }
+    /* ── Detail Modal ── */
+    .detail-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.78);
+      z-index: 999;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      overflow-y: auto;
+    }
+    .detail-modal.open { display: flex; }
+    .detail-modal-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      max-width: 680px;
+      width: 100%;
+      padding: 1.8rem;
+      margin: auto;
+    }
+    .detail-modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.4rem;
+    }
+    .detail-modal-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .detail-modal-close {
+      font-size: 1.8rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      line-height: 1;
+      flex-shrink: 0;
+      transition: color 0.15s;
+    }
+    .detail-modal-close:hover { color: var(--text); }
+    .dm-section { margin-bottom: 1.1rem; }
+    .dm-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+    .dm-text {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .dm-imgs {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.2rem;
+      flex-wrap: wrap;
+    }
+    .dm-img {
+      flex: 1;
+      min-width: 0;
+      border-radius: 8px;
+      display: block;
+      border: 1px solid var(--border);
+      cursor: zoom-in;
+      width: 100%;
     }
 
     /* ── Footer ── */
@@ -361,6 +440,16 @@
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <span class="lightbox-close">&times;</span>
   <img id="lightbox-img" src="" alt="">
+</div>
+
+<div class="detail-modal" id="detail-modal" onclick="closeDetailModal()">
+  <div class="detail-modal-box" onclick="event.stopPropagation()">
+    <div class="detail-modal-header">
+      <span class="detail-modal-title" id="dm-title"></span>
+      <span class="detail-modal-close" onclick="closeDetailModal()">&times;</span>
+    </div>
+    <div id="dm-body"></div>
+  </div>
 </div>
 
 <header>
@@ -505,16 +594,6 @@
         container.appendChild(label);
       }
 
-      const cardTarget = (() => {
-        if (type === 'data') {
-          const grid = document.createElement('div');
-          grid.className = 'cards-2col';
-          container.appendChild(grid);
-          return grid;
-        }
-        return container;
-      })();
-
       group.forEach(item => {
         const card = document.createElement("div");
         card.className = "card";
@@ -538,12 +617,14 @@
           `</div>`;
         }
 
-        // Build full-width image for data type
-        let dataImgHtml = "";
-        if (item.type === "data" && item.images && item.images.length > 0) {
-          dataImgHtml = item.images.map((src, idx) =>
-            `<img class="data-img" src="${src}" alt="figure ${idx + 1}" loading="lazy" onclick="openLightbox(event, '${src}')">`
-          ).join("");
+        // For data type: show overview only, add more button
+        let cardDesc = item.desc;
+        let moreBtnHtml = "";
+        if (item.type === "data") {
+          const sections = parseDescSections(item.desc);
+          cardDesc = sections.overview || item.desc;
+          const hasMore = sections.method || sections.results || (item.images && item.images.length > 0);
+          if (hasMore) moreBtnHtml = `<button class="card-more-btn">더보기 ↓</button>`;
         }
 
         const titleHtml = item.link
@@ -556,18 +637,25 @@
             <div class="card-icon">${item.icon}</div>
             <div class="card-body">
               ${titleHtml}
-              <div class="card-desc">${item.desc}</div>
+              <div class="card-desc">${cardDesc}</div>
               <div class="card-meta">
                 ${item.tags.map(t => `<span class="tag tag-${item.type}">#${t}</span>`).join("")}
                 <span class="card-date">${item.date}</span>
               </div>
               ${item.link ? `<a class="card-link" href="${item.link}" target="_blank">↗ ${item.linkLabel}</a>` : ""}
+              ${moreBtnHtml}
             </div>
           </div>
-          ${dataImgHtml}
         `;
 
-        cardTarget.appendChild(card);
+        if (item.type === "data" && moreBtnHtml) {
+          card.querySelector(".card-more-btn").addEventListener("click", (e) => {
+            e.stopPropagation();
+            openDetailModal(item);
+          });
+        }
+
+        container.appendChild(card);
       });
     });
   }
@@ -612,6 +700,37 @@
     updateStats(filtered);
   }
 
+  function parseDescSections(desc) {
+    const mIdx = desc.indexOf('방법:');
+    const rIdx = desc.indexOf('결과:');
+    if (mIdx === -1 && rIdx === -1) return { overview: desc, method: null, results: null };
+    const firstSpecial = mIdx > -1 ? mIdx : rIdx;
+    const overview = desc.slice(0, firstSpecial).trim();
+    const method = mIdx > -1 ? desc.slice(mIdx + 3, rIdx > -1 ? rIdx : desc.length).trim() : null;
+    const results = rIdx > -1 ? desc.slice(rIdx + 3).trim() : null;
+    return { overview, method, results };
+  }
+
+  function openDetailModal(item) {
+    const s = parseDescSections(item.desc);
+    document.getElementById('dm-title').textContent = item.title;
+    let html = '';
+    if (s.overview) html += `<div class="dm-section"><div class="dm-label">Overview</div><div class="dm-text">${s.overview}</div></div>`;
+    if (s.method)   html += `<div class="dm-section"><div class="dm-label">Method</div><div class="dm-text">${s.method}</div></div>`;
+    if (s.results)  html += `<div class="dm-section"><div class="dm-label">Results</div><div class="dm-text">${s.results}</div></div>`;
+    if (item.images && item.images.length > 0) {
+      html += `<div class="dm-imgs">` + item.images.map((src, i) =>
+        `<img class="dm-img" src="${src}" alt="figure ${i+1}" loading="lazy" onclick="openLightbox(event,'${src}')">`
+      ).join('') + `</div>`;
+    }
+    document.getElementById('dm-body').innerHTML = html;
+    document.getElementById('detail-modal').classList.add('open');
+  }
+
+  function closeDetailModal() {
+    document.getElementById('detail-modal').classList.remove('open');
+  }
+
   function openLightbox(e, src) {
     e.stopPropagation();
     document.getElementById("lightbox-img").src = src;
@@ -623,7 +742,7 @@
   }
 
   document.addEventListener("keydown", e => {
-    if (e.key === "Escape") closeLightbox();
+    if (e.key === "Escape") { closeLightbox(); closeDetailModal(); }
   });
 
   // init
