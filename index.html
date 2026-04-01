@@ -49,9 +49,7 @@
 
     /* ── Theme toggle ── */
     .theme-toggle {
-      position: absolute;
-      top: 0;
-      right: 1.5rem;
+      flex-shrink: 0;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -98,10 +96,15 @@
     }
 
     .header-inner {
-      position: relative;
       max-width: 900px;
       margin: 0 auto;
       padding: 0 1.5rem;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     .header-inner h1 {
@@ -580,16 +583,20 @@
 
 <header>
   <div class="header-inner">
-    <label class="theme-toggle" title="Toggle day/night mode">
-      <input type="checkbox" id="theme-chk" onchange="toggleTheme()">
-      <span class="toggle-track">
-        <span class="toggle-thumb"></span>
-        <span class="toggle-moon">🌙</span>
-        <span class="toggle-sun">☀️</span>
-      </span>
-    </label>
-    <h1>📂 Research Archive</h1>
-    <p>아이디어, 방법론, 논문, 코드, 결과물을 한 곳에</p>
+    <div class="header-top">
+      <div>
+        <h1>📂 Research Archive</h1>
+        <p>아이디어, 방법론, 논문, 코드, 결과물을 한 곳에</p>
+      </div>
+      <label class="theme-toggle" title="Toggle day/night mode">
+        <input type="checkbox" id="theme-chk" onchange="toggleTheme()">
+        <span class="toggle-track">
+          <span class="toggle-thumb"></span>
+          <span class="toggle-moon">🌙</span>
+          <span class="toggle-sun">☀️</span>
+        </span>
+      </label>
+    </div>
 
     <div class="filter-bar">
       <button class="filter-btn active" data-filter="all" onclick="filterCards('all')">All</button>
