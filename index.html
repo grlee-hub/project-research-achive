@@ -397,6 +397,19 @@
       border-bottom: 1px solid var(--border);
     }
 
+    /* ── Data 3-column grid ── */
+    .cards-3col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    @media (max-width: 700px) {
+      .cards-3col { grid-template-columns: 1fr; }
+    }
+    @media (min-width: 701px) and (max-width: 960px) {
+      .cards-3col { grid-template-columns: repeat(2, 1fr); }
+    }
+
     /* ── More button ── */
     .card-more-btn {
       display: inline-flex;
@@ -665,6 +678,16 @@
         container.appendChild(label);
       }
 
+      const cardTarget = (() => {
+        if (type === 'data') {
+          const grid = document.createElement('div');
+          grid.className = 'cards-3col';
+          container.appendChild(grid);
+          return grid;
+        }
+        return container;
+      })();
+
       group.forEach(item => {
         const card = document.createElement("div");
         card.className = "card";
@@ -735,7 +758,7 @@
           });
         }
 
-        container.appendChild(card);
+        cardTarget.appendChild(card);
       });
     });
   }
