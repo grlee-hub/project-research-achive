@@ -50,8 +50,8 @@
     /* ── Theme toggle ── */
     .theme-toggle {
       position: absolute;
-      top: 1.2rem;
-      right: 2rem;
+      top: 0;
+      right: 1.5rem;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -92,15 +92,16 @@
 
     /* ── Header ── */
     header {
-      position: relative;
       background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
       border-bottom: 1px solid var(--border);
-      padding: 2.5rem 2rem 2rem;
+      padding: 2.5rem 0 2rem;
     }
 
     .header-inner {
+      position: relative;
       max-width: 900px;
       margin: 0 auto;
+      padding: 0 1.5rem;
     }
 
     .header-inner h1 {
@@ -121,8 +122,7 @@
 
     /* ── Filter bar ── */
     .filter-bar {
-      max-width: 900px;
-      margin: 1.8rem auto 0;
+      margin: 1.8rem 0 0;
       display: flex;
       gap: 0.5rem;
       flex-wrap: wrap;
@@ -515,15 +515,15 @@
 </div>
 
 <header>
-  <label class="theme-toggle" title="Toggle day/night mode">
-    <input type="checkbox" id="theme-chk" onchange="toggleTheme()">
-    <span class="toggle-track">
-      <span class="toggle-thumb"></span>
-      <span class="toggle-moon">🌙</span>
-      <span class="toggle-sun">☀️</span>
-    </span>
-  </label>
   <div class="header-inner">
+    <label class="theme-toggle" title="Toggle day/night mode">
+      <input type="checkbox" id="theme-chk" onchange="toggleTheme()">
+      <span class="toggle-track">
+        <span class="toggle-thumb"></span>
+        <span class="toggle-moon">🌙</span>
+        <span class="toggle-sun">☀️</span>
+      </span>
+    </label>
     <h1>📂 Research Archive</h1>
     <p>아이디어, 방법론, 논문, 코드, 결과물을 한 곳에</p>
 
@@ -536,6 +536,7 @@
     </div>
   </div>
 </header>
+
 
 <main>
 
